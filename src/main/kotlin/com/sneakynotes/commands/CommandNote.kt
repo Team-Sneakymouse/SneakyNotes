@@ -56,7 +56,8 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
             return true
         }
 
-        val text = args.joinToString(" ")
+        val prefix = plugin.config.getString("note-settings.prefix", "") ?: ""
+        val text = prefix + args.joinToString(" ")
         val player = sender
 
         val location = player.location
