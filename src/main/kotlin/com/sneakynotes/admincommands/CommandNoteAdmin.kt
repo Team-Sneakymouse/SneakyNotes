@@ -18,26 +18,26 @@ class CommandNoteAdmin(private val plugin: SneakyNotes) : CommandBaseAdmin("note
         sender: CommandSender, commandLabel: String, args: Array<out String>
     ): Boolean {
 		if (args.isEmpty()) {
-            sender.sendMessage(plugin.getMessage("usage-admin"))
+            sender.sendMessage(SneakyNotes.getMessage("usage-admin"))
             return true
         }
 
         when (args[0].lowercase()) {
             "reload" -> {
                 plugin.reload()
-                sender.sendMessage(plugin.getMessage("reload-success"))
+                sender.sendMessage(SneakyNotes.getMessage("reload-success"))
             }
             "who" -> {
                 if (sender !is Player) {
                     sender.sendMessage("Only players can use this.")
                     return true
                 }
-                val nearest = findNearestNote(sender)
+                val nearest = plugin.noteManager.findNearestNote(sender, 2.0)
                 if (nearest != null) {
                     val creator = plugin.noteManager.getCreator(nearest) ?: "Unknown"
-                    sender.sendMessage(plugin.getMessage("nearest-creator", Placeholder.unparsed("player", creator)))
+                    sender.sendMessage(SneakyNotes.getMessage("nearest-creator", mapOf("%player%" to creator)))
                 } else {
-                    sender.sendMessage(plugin.getMessage("no-note-found"))
+                    sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
                 }
             }
             "remove" -> {
@@ -45,27 +45,20 @@ class CommandNoteAdmin(private val plugin: SneakyNotes) : CommandBaseAdmin("note
                     sender.sendMessage("Only players can use this.")
                     return true
                 }
-                val radius = args.getOrNull(1)?.toDoubleOrNull() ?: plugin.config.getDouble("remove-radius", 5.0)
-                val nearest = findNearestNote(sender, radius)
+                val radius = args.getOrNull(1)?.toDoubleOrNull() ?: plugin.config.getDouble("remove-radius", 2.0)
+                val nearest = plugin.noteManager.findNearestNote(sender, radius)
                 if (nearest != null) {
                     plugin.noteManager.unregisterNote(nearest.uniqueId)
                     nearest.remove()
-                    sender.sendMessage(plugin.getMessage("note-removed"))
+                    sender.sendMessage(SneakyNotes.getMessage("note-removed"))
                 } else {
-                    sender.sendMessage(plugin.getMessage("no-note-found"))
+                    sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
                 }
             }
-            else -> sender.sendMessage(plugin.getMessage("usage-admin"))
+            else -> sender.sendMessage(SneakyNotes.getMessage("usage-admin"))
         }
 
         return true
-    }
-
-    private fun findNearestNote(player: Player, radius: Double = plugin.config.getDouble("remove-radius", 5.0)): TextDisplay? {
-        return player.getNearbyEntities(radius, radius, radius)
-            .filterIsInstance<TextDisplay>()
-            .filter { plugin.noteManager.isPluginNote(it) }
-            .minByOrNull { it.location.distanceSquared(player.location) }
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.sneakynotes.commands
 
 import com.sneakynotes.SneakyNotes
-import net.kyori.adventure.text.minimessage.MiniMessage
+import com.sneakynotes.util.TextUtility
 import org.bukkit.Color
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -26,7 +26,20 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         }
 
         if (args.isEmpty()) {
-            sender.sendMessage(plugin.getMessage("usage-note"))
+            sender.sendMessage(SneakyNotes.getMessage("usage-note"))
+            return true
+        }
+
+        if (args[0] == "remove") {
+			val radius = plugin.config.getDouble("remove-radius", 2.0)
+			val nearest = plugin.noteManager.findNearestNote(sender, radius)
+			if (nearest != null) {
+				plugin.noteManager.unregisterNote(nearest.uniqueId)
+				nearest.remove()
+				sender.sendMessage(SneakyNotes.getMessage("note-removed"))
+			} else {
+				sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
+			}
             return true
         }
 
@@ -36,7 +49,7 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         val location = player.location
         val display = location.world.spawn(location, TextDisplay::class.java) { entity ->
             // Apply text
-            entity.text(plugin.miniMessage.deserialize(text))
+            entity.text(TextUtility.convertToComponent(text))
 
             // Apply settings from config
             val config = plugin.config
@@ -74,8 +87,25 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         }
 
         plugin.noteManager.registerNote(display, player.name)
-        sender.sendMessage(plugin.getMessage("note-created"))
+        sender.sendMessage(SneakyNotes.getMessage("note-created"))
 
         return true
+    }
+
+	/**
+     * Provides tab completion for the command arguments.
+     *
+     * @param sender The entity that sent the command.
+     * @param alias The alias used to invoke the command.
+     * @param args The arguments provided with the command.
+     * @return A list of possible completions based on the current input.
+     */
+    override fun tabComplete(
+        sender: CommandSender, alias: String, args: Array<String>
+    ): List<String> {
+        if (args.size == 1) {
+            return listOf("remove").filter { it.startsWith(args[0], true) }
+        }
+        return emptyList()
     }
 }

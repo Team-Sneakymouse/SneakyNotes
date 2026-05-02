@@ -3,15 +3,26 @@ package com.sneakynotes
 import com.sneakynotes.commands.*
 import com.sneakynotes.admincommands.*
 import com.sneakynotes.listeners.ChunkListener
-import com.sneakynotes.util.NoteManager
-import net.kyori.adventure.text.minimessage.MiniMessage
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
+import com.sneakynotes.managers.NoteManager
+import net.kyori.adventure.text.Component
 import org.bukkit.plugin.java.JavaPlugin
+import com.sneakynotes.util.TextUtility
 
 class SneakyNotes : JavaPlugin() {
     lateinit var noteManager: NoteManager
-    val miniMessage = MiniMessage.miniMessage()
 
+    /**
+     * Initializes the plugin instance during server load.
+     */
+    override fun onLoad() {
+        instance = this
+    }
+
+	/**
+     * Performs plugin setup on enable:
+     * - Initializes managers
+     * - Registers commands and listeners
+     */
     override fun onEnable() {
         saveDefaultConfig()
         noteManager = NoteManager(this)
@@ -36,13 +47,25 @@ class SneakyNotes : JavaPlugin() {
         // No need to clear activeNotes on reload, they are still the same session
     }
 
-    fun getMessage(key: String, vararg placeholders: net.kyori.adventure.text.minimessage.tag.resolver.TagResolver): net.kyori.adventure.text.Component {
-        val prefix = config.getString("messages.prefix", "")
-        val message = config.getString("messages.$key", "Missing message: $key")
-        return miniMessage.deserialize("$prefix$message", *placeholders)
-    }
-
 	companion object {
+        private lateinit var instance: SneakyNotes
 		const val IDENTIFIER = "sneakynotes"
+		
+		fun getInstance(): SneakyNotes = instance
+
+		fun getMessage(key: String): Component {
+			return getMessage(key, emptyMap())
+		}
+
+		fun getMessage(key: String, placeholders: Map<String, String>): Component {
+			val prefix = instance.config.getString("messages.prefix", "")
+			var message = instance.config.getString("messages.$key", "Missing message: $key") ?: "Missing message: $key"
+			
+			placeholders.forEach { (key, value) ->
+				message = message.replace(key, value)
+			}
+			
+			return TextUtility.convertToComponent((prefix + message))
+		}
 	}
 }

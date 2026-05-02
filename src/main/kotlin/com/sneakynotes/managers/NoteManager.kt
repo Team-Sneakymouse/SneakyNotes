@@ -1,7 +1,8 @@
-package com.sneakynotes.util
+package com.sneakynotes.managers
 
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.TextDisplay
+import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -35,4 +36,10 @@ class NoteManager(private val plugin: JavaPlugin) {
     fun clear() {
         activeNotes.clear()
     }
+
+	fun findNearestNote(player: Player, radius: Double): TextDisplay? {
+		return player.world.entities.filterIsInstance<TextDisplay>()
+			.minByOrNull { it.location.distance(player.location) }
+			?.takeIf { it.location.distance(player.location) <= radius }
+	}
 }
