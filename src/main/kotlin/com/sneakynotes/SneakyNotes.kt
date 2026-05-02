@@ -8,7 +8,6 @@ import com.sneakynotes.util.TextUtility
 import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
 import org.bukkit.permissions.Permission
-import org.bukkit.permissions.PermissionDefault
 import org.bukkit.plugin.java.JavaPlugin
 
 class SneakyNotes : JavaPlugin() {
@@ -41,9 +40,9 @@ class SneakyNotes : JavaPlugin() {
         server.pluginManager.registerEvents(ChunkListener(this), this)
 
         // Register permission nodes
-        server.pluginManager.addPermission(Permission("sneakynotes.command.*", "Allows use of all /note subcommands", PermissionDefault.OP))
-        server.pluginManager.addPermission(Permission("sneakynotes.admincommand.*", "Allows use of all /noteadmin subcommands", PermissionDefault.OP))
-        server.pluginManager.addPermission(Permission("sneakynotes.notespy", "Receives notifications when players create notes", PermissionDefault.OP))
+        server.pluginManager.addPermission(Permission("sneakynotes.command.*"))
+        server.pluginManager.addPermission(Permission("sneakynotes.admincommand.*"))
+        server.pluginManager.addPermission(Permission("sneakynotes.notespy"))
 
         logger.info("SneakyNotes has been enabled!")
     }
