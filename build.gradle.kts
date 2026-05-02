@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.21"
     id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 group = "com.sneakynotes"
@@ -20,17 +21,17 @@ kotlin {
     jvmToolchain(21)
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "21"
-        }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        freeCompilerArgs.addAll("-opt-in=kotlin.RequiresOptIn")
     }
-    
+}
+
+tasks {
     runServer {
         minecraftVersion("1.21.4")
     }
-    
     jar {
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE

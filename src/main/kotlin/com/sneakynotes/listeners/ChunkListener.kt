@@ -7,7 +7,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.world.ChunkLoadEvent
 
 class ChunkListener(private val plugin: SneakyNotes) : Listener {
-
     @EventHandler
     fun onChunkLoad(event: ChunkLoadEvent) {
         // Check all entities in the chunk

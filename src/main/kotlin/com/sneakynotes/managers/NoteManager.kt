@@ -1,18 +1,21 @@
 package com.sneakynotes.managers
 
 import org.bukkit.NamespacedKey
-import org.bukkit.entity.TextDisplay
 import org.bukkit.entity.Player
+import org.bukkit.entity.TextDisplay
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
+import java.util.UUID
 
 class NoteManager(private val plugin: JavaPlugin) {
     private val activeNotes = mutableSetOf<UUID>()
     val creatorKey = NamespacedKey(plugin, "creator_name")
     val pluginKey = NamespacedKey(plugin, "is_sneaky_note")
 
-    fun registerNote(entity: TextDisplay, creatorName: String) {
+    fun registerNote(
+        entity: TextDisplay,
+        creatorName: String,
+    ) {
         val container = entity.persistentDataContainer
         container.set(pluginKey, PersistentDataType.BYTE, 1.toByte())
         container.set(creatorKey, PersistentDataType.STRING, creatorName)
@@ -37,9 +40,13 @@ class NoteManager(private val plugin: JavaPlugin) {
         activeNotes.clear()
     }
 
-	fun findNearestNote(player: Player, radius: Double): TextDisplay? {
-		return player.world.entities.filterIsInstance<TextDisplay>()
-			.minByOrNull { it.location.distance(player.location) }
-			?.takeIf { it.location.distance(player.location) <= radius }
-	}
+    fun findNearestNote(
+        player: Player,
+        radius: Double,
+    ): TextDisplay? {
+        return player.getNearbyEntities(radius, radius, radius)
+            .filterIsInstance<TextDisplay>()
+            .filter { isPluginNote(it) }
+            .minByOrNull { it.location.distanceSquared(player.location) }
+    }
 }

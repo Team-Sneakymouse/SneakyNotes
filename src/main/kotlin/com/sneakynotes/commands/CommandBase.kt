@@ -10,9 +10,7 @@ import org.bukkit.command.Command
  * @property name The name of the command
  */
 abstract class CommandBase(name: String) : Command(name) {
-
     init {
         this.permission = "${SneakyNotes.IDENTIFIER}.command.$name"
     }
-
 }

@@ -1,12 +1,12 @@
 package com.sneakynotes
 
-import com.sneakynotes.commands.*
-import com.sneakynotes.admincommands.*
+import com.sneakynotes.admincommands.CommandNoteAdmin
+import com.sneakynotes.commands.CommandNote
 import com.sneakynotes.listeners.ChunkListener
 import com.sneakynotes.managers.NoteManager
+import com.sneakynotes.util.TextUtility
 import net.kyori.adventure.text.Component
 import org.bukkit.plugin.java.JavaPlugin
-import com.sneakynotes.util.TextUtility
 
 class SneakyNotes : JavaPlugin() {
     lateinit var noteManager: NoteManager
@@ -18,7 +18,7 @@ class SneakyNotes : JavaPlugin() {
         instance = this
     }
 
-	/**
+    /**
      * Performs plugin setup on enable:
      * - Initializes managers
      * - Registers commands and listeners
@@ -47,25 +47,28 @@ class SneakyNotes : JavaPlugin() {
         // No need to clear activeNotes on reload, they are still the same session
     }
 
-	companion object {
+    companion object {
         private lateinit var instance: SneakyNotes
-		const val IDENTIFIER = "sneakynotes"
-		
-		fun getInstance(): SneakyNotes = instance
+        const val IDENTIFIER = "sneakynotes"
 
-		fun getMessage(key: String): Component {
-			return getMessage(key, emptyMap())
-		}
+        fun getInstance(): SneakyNotes = instance
 
-		fun getMessage(key: String, placeholders: Map<String, String>): Component {
-			val prefix = instance.config.getString("messages.prefix", "")
-			var message = instance.config.getString("messages.$key", "Missing message: $key") ?: "Missing message: $key"
+        fun getMessage(key: String): Component {
+            return getMessage(key, emptyMap())
+        }
+
+        fun getMessage(
+            key: String,
+            placeholders: Map<String, String>,
+        ): Component {
+            val prefix = instance.config.getString("messages.prefix", "")
+            var message = instance.config.getString("messages.$key", "Missing message: $key") ?: "Missing message: $key"
 			
-			placeholders.forEach { (key, value) ->
-				message = message.replace(key, value)
-			}
+            placeholders.forEach { (key, value) ->
+                message = message.replace(key, value)
+            }
 			
-			return TextUtility.convertToComponent((prefix + message))
-		}
-	}
+            return TextUtility.convertToComponent((prefix + message))
+        }
+    }
 }
