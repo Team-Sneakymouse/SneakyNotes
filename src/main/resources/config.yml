@@ -37,6 +37,7 @@ remove-radius: 2.0
 messages:
   prefix: "<gray>[<blue>SneakyNotes</blue>]</gray> "
   note-created: "<green>Note created!</green>"
+  note-spy: "<gray>[Spy]</gray> <white>%player%</white> created a note: <italic>%text%</italic>"
   note-removed: "<red>Nearest note removed.</red>"
   no-note-found: "<yellow>No note found within the radius.</yellow>"
   nearest-creator: "<green>Nearest note created by: <white>%player%</white></green>"

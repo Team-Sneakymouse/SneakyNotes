@@ -105,6 +105,19 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         plugin.noteManager.registerNote(display, player.name)
         sender.sendMessage(SneakyNotes.getMessage("note-created"))
 
+        // Spy notification
+        val spyMessage =
+            SneakyNotes.getMessage(
+                "note-spy",
+                mapOf(
+                    "%player%" to player.name,
+                    "%text%" to args.joinToString(" "),
+                ),
+            )
+        plugin.server.onlinePlayers
+            .filter { it.hasPermission("sneakynotes.notespy") && it != player }
+            .forEach { it.sendMessage(spyMessage) }
+
         return true
     }
 

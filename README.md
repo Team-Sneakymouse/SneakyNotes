@@ -18,6 +18,7 @@ A Minecraft Paper plugin for creating temporary floating notes using Text Displa
 ## Permissions
 - `sneakynotes.command.note` - Allows use of `/note` (default: op)
 - `sneakynotes.admincommand.noteadmin` - Allows use of `/noteadmin` (default: op)
+- `sneakynotes.notespy` - Receive notifications when players create notes (default: op)
 
 ## Configuration
 The `config.yml` allows you to customize:
