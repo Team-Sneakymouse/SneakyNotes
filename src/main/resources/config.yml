@@ -17,6 +17,10 @@ note-settings:
   alignment: "CENTER"
   # Opacity (0-255)
   text-opacity: 255
+  # Line width for wrapping (default 200)
+  line-width: 200
+  # Maximum characters allowed in a note (max 100)
+  char-limit: 100
 
 # Transformations
 # Note: scale is a vector (x, y, z)

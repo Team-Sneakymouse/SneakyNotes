@@ -57,7 +57,14 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         }
 
         val prefix = plugin.config.getString("note-settings.prefix", "") ?: ""
-        val text = prefix + args.joinToString(" ")
+        var userInput = args.joinToString(" ")
+        val limit = plugin.config.getInt("note-settings.char-limit", 100).coerceAtMost(100)
+
+        if (userInput.length > limit) {
+            userInput = userInput.substring(0, limit)
+        }
+
+        val text = prefix + userInput
         val player = sender
 
         val location = player.location
@@ -82,6 +89,7 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
                 entity.alignment = TextDisplay.TextAlignment.valueOf(alignmentStr.uppercase())
 
                 entity.textOpacity = config.getInt("note-settings.text-opacity", 255).toByte()
+                entity.lineWidth = config.getInt("note-settings.line-width", 200)
 
                 // Transformations
                 val scaleX = config.getDouble("transformations.scale.x", 1.0).toFloat()
@@ -111,7 +119,7 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
                 "note-spy",
                 mapOf(
                     "%player%" to player.name,
-                    "%text%" to args.joinToString(" "),
+                    "%text%" to userInput,
                 ),
             )
         plugin.server.onlinePlayers
