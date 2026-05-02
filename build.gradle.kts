@@ -1,0 +1,38 @@
+plugins {
+    kotlin("jvm") version "2.0.21"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
+}
+
+group = "com.sneakynotes"
+version = "1.0.0"
+
+repositories {
+    mavenCentral()
+    maven("https://repo.papermc.io/repository/maven-public/")
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "21"
+        }
+    }
+    
+    runServer {
+        minecraftVersion("1.21.4")
+    }
+    
+    jar {
+        from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}

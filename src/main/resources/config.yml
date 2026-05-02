@@ -1,0 +1,44 @@
+# SneakyNotes Configuration
+
+# Default settings for the text display
+note-settings:
+  # Billboard settings: FIXED, VERTICAL, HORIZONTAL, CENTER
+  billboard: "CENTER"
+  # Background color in ARGB format (hex)
+  # Default is semi-transparent black
+  background-color: 0x40000000
+  # Text shadow
+  shadow: true
+  # See through blocks
+  see-through: false
+  # Text alignment: LEFT, CENTER, RIGHT
+  alignment: "CENTER"
+  # Opacity (0-255)
+  text-opacity: 255
+
+# Transformations
+# Note: scale is a vector (x, y, z)
+transformations:
+  scale:
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  translation:
+    x: 0.0
+    y: 0.5
+    z: 0.0
+
+# Radius for the remove command
+remove-radius: 2.0
+
+# Messages
+messages:
+  prefix: "<gray>[<blue>SneakyNotes</blue>]</gray> "
+  note-created: "<green>Note created!</green>"
+  note-removed: "<red>Nearest note removed.</red>"
+  no-note-found: "<yellow>No note found within the radius.</yellow>"
+  nearest-creator: "<green>Nearest note created by: <white>%player%</white></green>"
+  reload-success: "<green>Configuration reloaded successfully.</green>"
+  no-permission: "<red>You don't have permission to do that.</red>"
+  usage-note: "<yellow>Usage: /note [text]</yellow>"
+  usage-admin: "<yellow>Usage: /noteadmin <who|remove|reload></yellow>"
