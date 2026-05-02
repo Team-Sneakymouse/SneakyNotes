@@ -4,12 +4,24 @@ import com.sneakynotes.SneakyNotes
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
+/**
+ * Administrative commands for Managing SneakyNotes.
+ * Subcommands: who, remove, reload
+ */
 class CommandNoteAdmin(private val plugin: SneakyNotes) : CommandBaseAdmin("noteadmin") {
     init {
         this.usageMessage = "/${this@CommandNoteAdmin.name} <who|remove|reload> [radius]"
         this.description = "Administrative commands for SneakyNotes."
     }
 
+    /**
+     * Executes the administrative commands.
+     *
+     * @param sender The sender of the command
+     * @param commandLabel The label used to invoke the command
+     * @param args The command arguments
+     * @return true if the command was handled successfully
+     */
     override fun execute(
         sender: CommandSender,
         commandLabel: String,

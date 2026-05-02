@@ -10,12 +10,24 @@ import org.bukkit.entity.TextDisplay
 import org.bukkit.util.Transformation
 import org.joml.Vector3f
 
+/**
+ * Command for creating temporary floating notes.
+ * Usage: /note [text]
+ */
 class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
     init {
         this.usageMessage = "/${this@CommandNote.name} [text]"
         this.description = "Creates a temporary floating note."
     }
 
+    /**
+     * Executes the /note command.
+     *
+     * @param sender The sender of the command
+     * @param commandLabel The label used to invoke the command
+     * @param args The command arguments
+     * @return true if the command was handled successfully
+     */
     override fun execute(
         sender: CommandSender,
         commandLabel: String,

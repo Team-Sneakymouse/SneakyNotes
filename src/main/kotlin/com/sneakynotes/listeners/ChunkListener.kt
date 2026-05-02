@@ -6,7 +6,15 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.world.ChunkLoadEvent
 
+/**
+ * Listener responsible for cleaning up notes from previous sessions when chunks load.
+ */
 class ChunkListener(private val plugin: SneakyNotes) : Listener {
+    /**
+     * Cleans up orphaned notes in the loading chunk.
+     *
+     * @param event The ChunkLoadEvent
+     */
     @EventHandler
     fun onChunkLoad(event: ChunkLoadEvent) {
         // Check all entities in the chunk

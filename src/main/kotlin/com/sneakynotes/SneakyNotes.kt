@@ -9,6 +9,9 @@ import net.kyori.adventure.text.Component
 import org.bukkit.plugin.java.JavaPlugin
 
 class SneakyNotes : JavaPlugin() {
+    /**
+     * Manager responsible for entity lifecycle and NBT data.
+     */
     lateinit var noteManager: NoteManager
 
     /**
@@ -37,11 +40,17 @@ class SneakyNotes : JavaPlugin() {
         logger.info("SneakyNotes has been enabled!")
     }
 
+    /**
+     * Performs cleanup on plugin disable.
+     */
     override fun onDisable() {
         noteManager.clear()
         logger.info("SneakyNotes has been disabled!")
     }
 
+    /**
+     * Reloads the plugin configuration from disk.
+     */
     fun reload() {
         reloadConfig()
         // No need to clear activeNotes on reload, they are still the same session
@@ -49,25 +58,47 @@ class SneakyNotes : JavaPlugin() {
 
     companion object {
         private lateinit var instance: SneakyNotes
+
+        /**
+         * The unique identifier for the plugin (namespace).
+         */
         const val IDENTIFIER = "sneakynotes"
 
+        /**
+         * Gets the current plugin instance.
+         *
+         * @return The SneakyNotes instance
+         */
         fun getInstance(): SneakyNotes = instance
 
+        /**
+         * Retrieves a formatted message from the configuration.
+         *
+         * @param key The message key in config.yml
+         * @return The formatted Component
+         */
         fun getMessage(key: String): Component {
             return getMessage(key, emptyMap())
         }
 
+        /**
+         * Retrieves a formatted message from the configuration with placeholders.
+         *
+         * @param key The message key in config.yml
+         * @param placeholders A map of keys to replace with values
+         * @return The formatted Component
+         */
         fun getMessage(
             key: String,
             placeholders: Map<String, String>,
         ): Component {
             val prefix = instance.config.getString("messages.prefix", "")
             var message = instance.config.getString("messages.$key", "Missing message: $key") ?: "Missing message: $key"
-			
+
             placeholders.forEach { (key, value) ->
                 message = message.replace(key, value)
             }
-			
+
             return TextUtility.convertToComponent((prefix + message))
         }
     }
