@@ -11,7 +11,7 @@ A Minecraft Paper plugin for creating temporary floating notes using Text Displa
 
 ## Commands
 - `/note [text]` - Create a note at your current location.
-- `/snote who` - Show the creator of the nearest note.
+- `/noteadmin who` - Show the creator of the nearest note.
 - `/noteadmin remove [radius]` - Remove the nearest note within the specified radius (defaults to config value).
 - `/noteadmin reload` - Reload the plugin configuration.
 
