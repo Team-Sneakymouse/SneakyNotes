@@ -34,12 +34,12 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
         args: Array<out String>,
     ): Boolean {
         if (sender !is Player) {
-            sender.sendMessage("This command can only be used by players.")
+            SneakyNotes.sendMessage(sender, TextUtility.convertToComponent("This command can only be used by players."))
             return true
         }
 
         if (args.isEmpty()) {
-            sender.sendMessage(SneakyNotes.getMessage("usage-note"))
+            SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("usage-note"))
             return true
         }
 
@@ -49,9 +49,9 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
             if (nearest != null) {
                 plugin.noteManager.unregisterNote(nearest.uniqueId)
                 nearest.remove()
-                sender.sendMessage(SneakyNotes.getMessage("note-removed"))
+                SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("note-removed"))
             } else {
-                sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
+                SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("no-note-found"))
             }
             return true
         }
@@ -103,7 +103,7 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
             }
 
         plugin.noteManager.registerNote(display, player.name)
-        sender.sendMessage(SneakyNotes.getMessage("note-created"))
+        SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("note-created"))
 
         // Spy notification
         val spyMessage =
@@ -116,7 +116,7 @@ class CommandNote(private val plugin: SneakyNotes) : CommandBase("note") {
             )
         plugin.server.onlinePlayers
             .filter { it.hasPermission("sneakynotes.notespy") && it != player }
-            .forEach { it.sendMessage(spyMessage) }
+            .forEach { SneakyNotes.sendMessage(it, spyMessage) }
 
         return true
     }

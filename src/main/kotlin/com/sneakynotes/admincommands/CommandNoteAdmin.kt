@@ -1,6 +1,7 @@
 package com.sneakynotes.admincommands
 
 import com.sneakynotes.SneakyNotes
+import com.sneakynotes.util.TextUtility
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -28,32 +29,32 @@ class CommandNoteAdmin(private val plugin: SneakyNotes) : CommandBaseAdmin("note
         args: Array<out String>,
     ): Boolean {
         if (args.isEmpty()) {
-            sender.sendMessage(SneakyNotes.getMessage("usage-admin"))
+            SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("usage-admin"))
             return true
         }
 
         when (args[0].lowercase()) {
             "reload" -> {
                 plugin.reload()
-                sender.sendMessage(SneakyNotes.getMessage("reload-success"))
+                SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("reload-success"))
             }
             "who" -> {
                 if (sender !is Player) {
-                    sender.sendMessage("Only players can use this.")
+                    SneakyNotes.sendMessage(sender, TextUtility.convertToComponent("Only players can use this."))
                     return true
                 }
                 val radius = args.getOrNull(1)?.toDoubleOrNull() ?: plugin.config.getDouble("remove-radius", 2.0)
                 val nearest = plugin.noteManager.findNearestNote(sender, radius)
                 if (nearest != null) {
                     val creator = plugin.noteManager.getCreator(nearest) ?: "Unknown"
-                    sender.sendMessage(SneakyNotes.getMessage("nearest-creator", mapOf("%player%" to creator)))
+                    SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("nearest-creator", mapOf("%player%" to creator)))
                 } else {
-                    sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
+                    SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("no-note-found"))
                 }
             }
             "remove" -> {
                 if (sender !is Player) {
-                    sender.sendMessage("Only players can use this.")
+                    SneakyNotes.sendMessage(sender, TextUtility.convertToComponent("Only players can use this."))
                     return true
                 }
                 val radius = args.getOrNull(1)?.toDoubleOrNull() ?: plugin.config.getDouble("remove-radius", 2.0)
@@ -61,12 +62,12 @@ class CommandNoteAdmin(private val plugin: SneakyNotes) : CommandBaseAdmin("note
                 if (nearest != null) {
                     plugin.noteManager.unregisterNote(nearest.uniqueId)
                     nearest.remove()
-                    sender.sendMessage(SneakyNotes.getMessage("note-removed"))
+                    SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("note-removed"))
                 } else {
-                    sender.sendMessage(SneakyNotes.getMessage("no-note-found"))
+                    SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("no-note-found"))
                 }
             }
-            else -> sender.sendMessage(SneakyNotes.getMessage("usage-admin"))
+            else -> SneakyNotes.sendMessage(sender, SneakyNotes.getMessage("usage-admin"))
         }
 
         return true

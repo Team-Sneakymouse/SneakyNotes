@@ -6,6 +6,7 @@ import com.sneakynotes.listeners.ChunkListener
 import com.sneakynotes.managers.NoteManager
 import com.sneakynotes.util.TextUtility
 import net.kyori.adventure.text.Component
+import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 
 class SneakyNotes : JavaPlugin() {
@@ -100,6 +101,25 @@ class SneakyNotes : JavaPlugin() {
             }
 
             return TextUtility.convertToComponent((prefix + message))
+        }
+
+        /**
+         * Sends a message to a CommandSender if it's not empty.
+         *
+         * @param sender The sender to receive the message
+         * @param component The message component
+         */
+        fun sendMessage(
+            sender: CommandSender,
+            component: Component,
+        ) {
+            val plainText =
+                net.kyori.adventure.text.serializer.plain.PlainComponentSerializer
+                    .plain()
+                    .serialize(component)
+            if (plainText.trim().isNotEmpty()) {
+                sender.sendMessage(component)
+            }
         }
     }
 }

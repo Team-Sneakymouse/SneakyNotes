@@ -3,7 +3,7 @@
 # Default settings for the text display
 note-settings:
   # Prefix added to every note
-  prefix: "<gray>[Note]</gray> "
+  prefix: "&7"
   # Billboard settings: FIXED, VERTICAL, HORIZONTAL, CENTER
   billboard: "CENTER"
   # Background color in ARGB format (hex)
