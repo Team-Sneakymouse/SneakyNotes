@@ -120,8 +120,8 @@ class SneakyNotes : JavaPlugin() {
             component: Component,
         ) {
             val plainText =
-                net.kyori.adventure.text.serializer.plain.PlainComponentSerializer
-                    .plain()
+                net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
+                    .plainText()
                     .serialize(component)
             if (plainText.trim().isNotEmpty()) {
                 sender.sendMessage(component)

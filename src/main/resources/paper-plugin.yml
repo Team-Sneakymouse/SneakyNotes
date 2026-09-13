@@ -2,6 +2,6 @@ name: SneakyNotes
 version: '${version}'
 main: com.sneakynotes.SneakyNotes
 description: A plugin to create temporary floating notes.
-api-version: '1.21'
+api-version: '26.2'
 authors: [Team Sneakymouse]
 website: https://rawb.tv
