@@ -1,5 +1,5 @@
 name: SneakyNotes
-version: '${version}'
+version: "${version}"
 main: com.sneakynotes.SneakyNotes
 description: A plugin to create temporary floating notes.
 api-version: '26.2'
