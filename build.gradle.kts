@@ -75,6 +75,7 @@ publishing {
                 name.set("SneakyNotes")
                 description.set("Paper plugin to create temporary floating notes.")
                 url.set("https://github.com/Team-Sneakymouse/SneakyNotes")
+                properties.put("sneakyrp.deployment.type", "paper-plugin")
                 scm {
                     url.set("https://github.com/Team-Sneakymouse/SneakyNotes")
                     connection.set("scm:git:https://github.com/Team-Sneakymouse/SneakyNotes.git")
