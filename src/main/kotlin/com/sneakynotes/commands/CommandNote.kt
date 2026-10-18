@@ -1,7 +1,7 @@
 package com.sneakynotes.commands
 
 import com.sneakynotes.SneakyNotes
-import com.sneakynotes.util.TextUtility
+import com.sneakyutils.util.TextUtility
 import org.bukkit.Color
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Display.Billboard

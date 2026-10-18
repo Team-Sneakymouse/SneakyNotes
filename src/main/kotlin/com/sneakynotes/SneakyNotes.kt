@@ -4,7 +4,7 @@ import com.sneakynotes.admincommands.CommandNoteAdmin
 import com.sneakynotes.commands.CommandNote
 import com.sneakynotes.listeners.ChunkListener
 import com.sneakynotes.managers.NoteManager
-import com.sneakynotes.util.TextUtility
+import com.sneakyutils.util.TextUtility
 import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
 import org.bukkit.permissions.Permission

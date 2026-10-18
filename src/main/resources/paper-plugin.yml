@@ -5,3 +5,9 @@ description: A plugin to create temporary floating notes.
 api-version: '26.2'
 authors: [Team Sneakymouse]
 website: https://rawb.tv
+dependencies:
+  server:
+    SneakyUtils:
+      load: BEFORE
+      required: true
+      join-classpath: true

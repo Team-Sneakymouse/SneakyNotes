@@ -27,10 +27,12 @@ version =
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://maven.sneakyrp.com/releases")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
+    compileOnly("io.github.team-sneakymouse:sneakyutils:2026.10.18-4b5831b0b997")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.3.21")
 }
 
