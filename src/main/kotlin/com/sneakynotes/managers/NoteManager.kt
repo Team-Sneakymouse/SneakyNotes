@@ -54,11 +54,13 @@ class NoteManager(private val plugin: JavaPlugin) {
      * @return true if it has the plugin's NBT key
      */
     fun isPluginNote(entity: TextDisplay): Boolean {
+        // Identify notes by this PDC key, never by name or text.
         return entity.persistentDataContainer.has(pluginKey, PersistentDataType.BYTE)
     }
 
     /**
-     * Retrieves the creator's name from an entity's NBT data.
+     * Retrieves the creator's name from an entity's NBT data. Admin-only: keep it permission-gated (/noteadmin who, notespy)
+     * and never expose it to players or placeholders.
      *
      * @param entity The TextDisplay entity
      * @return The creator's name, or null if not found

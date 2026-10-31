@@ -8,6 +8,9 @@ import org.bukkit.event.world.ChunkLoadEvent
 
 /**
  * Listener responsible for cleaning up notes from previous sessions when chunks load.
+ *
+ * Entities may not be loaded yet at [ChunkLoadEvent]; if notes survive, move this to EntitiesLoadEvent.
+ * Anything that changes what "registered" means in NoteManager must be reflected here, or a reload deletes live notes.
  */
 class ChunkListener(private val plugin: SneakyNotes) : Listener {
     /**
